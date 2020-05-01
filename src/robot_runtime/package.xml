@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>robot_runtime</name>
+  <version>0.0.0</version>
+  <description>Bringup package for the full headless robot application</description>
+  <maintainer email="ros-contributions@amazon.com">AWS Robotics ROS Contributors</maintainer>
+  <license>MIT-0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!--
+    Here is our application, in practice this would consist of more than one package
+  -->
+  <exec_depend>fake_robot</exec_depend>
+
+  <!--
+    Here we include extra utilities we want to use on the robot.
+    Note that in a full production environment, you may not even want the commandline utilities.
+  -->
+  <exec_depend>ros2component</exec_depend>
+  <exec_depend>ros2launch</exec_depend>
+  <exec_depend>ros2node</exec_depend>
+  <exec_depend>ros2param</exec_depend>
+  <exec_depend>ros2pkg</exec_depend>
+  <exec_depend>ros2run</exec_depend>
+  <exec_depend>ros2topic</exec_depend>
+  <exec_depend>rmw_cyclonedds_cpp</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

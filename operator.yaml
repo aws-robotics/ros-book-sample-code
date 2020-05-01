@@ -1,0 +1,5 @@
+list:
+  packages-up-to: ["remote_operator"]
+build:
+  packages-up-to: ["remote_operator"]
+  merge-install: yes
