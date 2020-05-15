@@ -12,9 +12,29 @@ namespace fake_robot
 FakeLaserNode::FakeLaserNode(const rclcpp::NodeOptions & options)
 : Node("fake_laser", options)
 {
-  // Use the default QoS profile to start
-  rclcpp::QoS qos_offer(rclcpp::KeepLast(5));
+  // Use the SensorData QoS profile with a KeepLast initializer reflecting our chosen history depth
+  auto qos_offer = rclcpp::SensorDataQoS(rclcpp::KeepLast(5));
+  qos_offer.lifespan(std::chrono::seconds(1));
+  qos_offer.deadline(std::chrono::milliseconds(300));
+
   rclcpp::PublisherOptions publisher_options;
+  publisher_options.event_callbacks.incompatible_qos_callback =
+    [this](rclcpp::QOSOfferedIncompatibleQoSInfo & event) -> void
+    {
+      RCLCPP_INFO(
+        get_logger(),
+        "My QoS offer was incompatible with a subscription's request. "
+        "This has happened %d times", event.total_count);
+    };
+  publisher_options.event_callbacks.deadline_callback =
+    [this](rclcpp::QOSDeadlineOfferedInfo & event) -> void
+    {
+      RCLCPP_INFO(
+        get_logger(),
+        "I missed my deadline for publishing a message. "
+        "This has happened %d times.", event.total_count);
+    };
+
   publisher_ = create_publisher<sensor_msgs::msg::LaserScan>(
     "scan", qos_offer, publisher_options);
   timer_ = create_wall_timer(
@@ -24,6 +44,10 @@ FakeLaserNode::FakeLaserNode(const rclcpp::NodeOptions & options)
 void FakeLaserNode::publish_timer_callback()
 {
   publish_count_++;
+  if (publish_count_ % 5 == 0) {
+    RCLCPP_INFO(get_logger(), "Fake issue: skipping publishing every 5th message.");
+    return;
+  }
   create_arbitrary_fake_laser_scan();
   RCLCPP_INFO(get_logger(), "Publishing laser scan");
   publisher_->publish(std::move(message_));
