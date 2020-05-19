@@ -1,0 +1,49 @@
+name: Test fake_robot
+on:
+  push:
+    branches:
+      - github-actions
+  schedule:
+    # Run every hour.
+    - cron:  '0 * * * *'
+
+jobs:
+  build_and_test_coverage:
+    # Build and test a package and upload coverage report to codecov.io
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macOS-latest, ubuntu-18.04]
+    steps:
+    - uses: ros-tooling/setup-ros@0.0.20
+    - uses: ros-tooling/action-ros-ci@0.0.16
+      with:
+        package-name: fake_robot
+        colcon-mixin-name: coverage-gcc
+        colcon-mixin-repository: https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+    - uses: codecov/codecov-action@v1.0.6
+      # Report coverage from the Ubuntu build.
+      if: matrix.os == 'ubuntu-18.04'
+      with:
+        file: ros_ws/lcov/total_coverage.info
+        flags: unittests
+        name: codecov-umbrella
+        yml: ./codecov.yml
+        fail_ci_if_error: true
+
+  build_and_test_asan:
+    # Build and test a package with AddressSanitizer enabled.
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+          # AddressSanitizer only works on Ubuntu.
+          os: [ubuntu-18.04]
+    steps:
+    - uses: ros-tooling/setup-ros@0.0.20
+    - uses: ros-tooling/action-ros-ci@0.0.16
+      with:
+        colcon-mixin-name: asan
+        colcon-mixin-repository: https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+        package-name: fake_robot
