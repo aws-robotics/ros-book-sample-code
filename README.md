@@ -1,13 +1,6 @@
-## My Project
+# Developing Production-Grade Applications with ROS 2
 
-TODO: Fill this README out!
+This repository contains the resources needed to follow along with the tutorials in the chapter "Developing Production-Grade Applications with ROS 2" from Springer's ROS Handbook.
 
-Be sure to:
-
-* Change the title in this README
-* Edit your repository description on GitHub
-
-## License
-
-This library is licensed under the MIT-0 License. See the LICENSE file.
-
+The branches on this repository will contain the state of the application at each section of the chapter.
+The introductions of these sections will tell you which branch to check out.
