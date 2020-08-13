@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>system_metrics_collector</name>
+  <version>0.0.0</version>
+  <description>Node and aggregation utilities to measure and publish system metrics.</description>
+  <maintainer email="ros-tooling@googlegroups.com">ROS Tooling Working Group</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>libstatistics_collector</depend>
+  <depend>message_filters</depend>
+  <depend>rcl</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_components</depend>
+  <depend>rclcpp_lifecycle</depend>
+  <depend>rcpputils</depend>
+  <depend>rcutils</depend>
+  <depend>statistics_msgs</depend>
+
+  <build_depend>rosidl_default_generators</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <!--Required for example launch file-->
+  <exec_depend>demo_nodes_cpp</exec_depend>
+
+  <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+  <test_depend>class_loader</test_depend>
+  <test_depend>lifecycle_msgs</test_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+
+  <!--Required for e2e test file-->
+  <test_depend>python3-retrying</test_depend>
+  <test_depend>rclpy</test_depend>
+  <test_depend>ros2launch</test_depend>
+  <test_depend>ros2lifecycle</test_depend>
+  <test_depend>ros2topic</test_depend>
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
